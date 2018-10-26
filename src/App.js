@@ -138,7 +138,7 @@ function App() {
             <button>Update user</button>
             <button
               onClick={() => setEditing(false)}
-              class="button muted-button"
+              className="button muted-button"
             >
               Cancel
             </button>
