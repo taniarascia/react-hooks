@@ -34,6 +34,7 @@ const App = () => {
 
 	const editRow = user => {
 		setEditing(true)
+		console.log(user)
 
 		setCurrentUser({ name: user.name, username: user.username })
 	}
