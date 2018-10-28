@@ -1,152 +1,73 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
+import AddUserForm from './forms/AddUserForm'
+import EditUserForm from './forms/EditUserForm'
+import UserTable from './tables/UserTable'
 
-function App() {
-  // Data
-  const usersData = [
-    { name: 'Tania', username: 'floppydiskette' },
-    { name: 'Dan', username: 'gaeron' },
-  ]
+const App = () => {
+	// Data
+	const usersData = [
+		{ name: 'Tania', username: 'floppydiskette' },
+		{ name: 'Craig', username: 'siliconeidolon' },
+		{ name: 'Ben', username: 'benisphere' },
+	]
 
-  const initialFormState = { name: '', username: '' }
+	const initialFormState = { name: '', username: '' }
 
-  // Setting state
-  const [users, setUser] = useState(usersData)
-  const [form, setForm] = useState(initialFormState)
-  const [editForm, setEditForm] = useState(initialFormState)
-  const [editing, setEditing] = useState(false)
+	// Setting state
+	const [ users, setUsers ] = useState(usersData)
+	const [ currentUser, setCurrentUser ] = useState(initialFormState)
+	const [ editing, setEditing ] = useState(false)
 
-  // CRUD operations
-  const addUser = event => {
-    event.preventDefault()
+	// CRUD operations
+	const addUser = user => {
+		setUsers([ ...users, user ])
+	}
 
-    if (!form.name || !form.username) return
+	const updateUser = (id, updatedUser) => {
+		setUsers(users.map(user => (user.name === id ? updatedUser : user)))
+		setEditing(false)
+	}
 
-    setUser([...users, form])
-  }
+	const deleteUser = id => {
+		setUsers(users.filter(user => user.name !== id))
+	}
 
-  const updateUser = (id, updatedUser) => {
-    setUser(users.map(user => (user.name === id ? updatedUser : user)))
-    setEditing(false)
-  }
+	const editRow = user => {
+		setEditing(true)
 
-  const deleteUser = id => {
-    setUser(users.filter(user => user.name !== id))
-  }
+		setCurrentUser({ name: user.name, username: user.username })
+	}
 
-  const editRow = user => {
-    setEditing(true)
+	return (
+		<div className="container">
+			<h1>CRUD App with Hooks</h1>
+			<div className="flex-row">
+				<div className="flex-large">
+					{editing ? (
+						<Fragment>
+							<h2>Edit user</h2>
+							<EditUserForm
+								editing={editing}
+								setEditing={setEditing}
+								currentUser={currentUser}
+								updateUser={updateUser}
+							/>
+						</Fragment>
+					) : (
+						<Fragment>
+							<h2>Add user</h2>
+							<AddUserForm addUser={addUser} />
+						</Fragment>
+					)}
+				</div>
+				<div className="flex-large">
+					<h2>View users</h2>
 
-    setEditForm({ name: user.name, username: user.username })
-  }
-
-  // Form state
-  const handleInputChange = event => {
-    const { name, value } = event.target
-
-    setForm({ ...form, [name]: value })
-  }
-
-  const handleEditInputChange = event => {
-    const { name, value } = event.target
-
-    setEditForm({ ...editForm, [name]: value })
-  }
-
-  return (
-    <div className="small-container">
-      <h1>React CRUD App with Hooks</h1>
-      <h3>Add New User</h3>
-      <form onSubmit={addUser}>
-        <label>Name</label>
-        <input
-          type="text"
-          name="name"
-          value={form.name}
-          onChange={handleInputChange}
-        />
-        <label>Username</label>
-        <input
-          type="text"
-          name="username"
-          value={form.username}
-          onChange={handleInputChange}
-        />
-        <button>Add new user</button>
-      </form>
-
-      <h2>View Users</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Username</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.length > 0 ? (
-            users.map(user => (
-              <tr key={user.name}>
-                <td>{user.name}</td>
-                <td>{user.username}</td>
-                <td>
-                  <button
-                    onClick={() => editRow(user)}
-                    className="button muted-button"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => deleteUser(user.name)}
-                    className="button muted-button"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={3}>No users</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-      {editing ? (
-        <div>
-          <h2>Edit User</h2>
-          <form
-            onSubmit={event => {
-              event.preventDefault()
-              updateUser(editForm.name, editForm)
-            }}
-          >
-            <label>Name</label>
-            <input
-              type="text"
-              name="name"
-              value={editForm.name}
-              onChange={handleEditInputChange}
-            />
-            <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              value={editForm.username}
-              onChange={handleEditInputChange}
-            />
-            <button>Update user</button>
-            <button
-              onClick={() => setEditing(false)}
-              className="button muted-button"
-            >
-              Cancel
-            </button>
-          </form>
-        </div>
-      ) : null}
-    </div>
-  )
+					<UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
+				</div>
+			</div>
+		</div>
+	)
 }
 
 export default App
