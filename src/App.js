@@ -6,12 +6,12 @@ import UserTable from './tables/UserTable'
 const App = () => {
 	// Data
 	const usersData = [
-		{ name: 'Tania', username: 'floppydiskette' },
-		{ name: 'Craig', username: 'siliconeidolon' },
-		{ name: 'Ben', username: 'benisphere' },
+		{ id: 1, name: 'Tania', username: 'floppydiskette' },
+		{ id: 2, name: 'Craig', username: 'siliconeidolon' },
+		{ id: 3, name: 'Ben', username: 'benisphere' },
 	]
 
-	const initialFormState = { name: '', username: '' }
+	const initialFormState = { id: null, name: '', username: '' }
 
 	// Setting state
 	const [ users, setUsers ] = useState(usersData)
@@ -20,11 +20,12 @@ const App = () => {
 
 	// CRUD operations
 	const addUser = user => {
+		user.id = users.length + 1
 		setUsers([ ...users, user ])
 	}
 
 	const updateUser = (id, updatedUser) => {
-		setUsers(users.map(user => (user.name === id ? updatedUser : user)))
+		setUsers(users.map(user => (user.id === id ? updatedUser : user)))
 
 		setEditing(false)
 	}
@@ -32,13 +33,13 @@ const App = () => {
 	const deleteUser = id => {
 		setEditing(false)
 
-		setUsers(users.filter(user => user.name !== id))
+		setUsers(users.filter(user => user.id !== id))
 	}
 
 	const editRow = user => {
 		setEditing(true)
 
-		setCurrentUser({ name: user.name, username: user.username })
+		setCurrentUser({ id: user.id, name: user.name, username: user.username })
 	}
 
 	return (
@@ -65,7 +66,6 @@ const App = () => {
 				</div>
 				<div className="flex-large">
 					<h2>View users</h2>
-
 					<UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
 				</div>
 			</div>

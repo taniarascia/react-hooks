@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 const EditUserForm = props => {
 	const [ user, setUser ] = useState(props.currentUser)
-	console.log(user)
 
 	useEffect(
 		() => {
@@ -23,7 +22,7 @@ const EditUserForm = props => {
 			onSubmit={event => {
 				event.preventDefault()
 
-				props.updateUser(user.name, user)
+				props.updateUser(user.id, user)
 			}}
 		>
 			<label>Name</label>

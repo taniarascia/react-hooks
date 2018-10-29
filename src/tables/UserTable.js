@@ -13,22 +13,20 @@ const UserTable = props => {
 			<tbody>
 				{props.users.length > 0 ? (
 					props.users.map(user => (
-						<tr key={user.name}>
+						<tr key={user.id}>
 							<td>{user.name}</td>
 							<td>{user.username}</td>
 							<td>
 								<button
 									onClick={() => {
-										console.log(user)
 										props.editRow(user)
-									}
-									}
+									}}
 									className="button muted-button"
 								>
 									Edit
 								</button>
 								<button
-									onClick={() => props.deleteUser(user.name)}
+									onClick={() => props.deleteUser(user.id)}
 									className="button muted-button"
 								>
 									Delete
