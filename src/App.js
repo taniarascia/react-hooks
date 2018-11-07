@@ -31,9 +31,9 @@ const App = () => {
 	}
 
 	const updateUser = (id, updatedUser) => {
-		setUsers(users.map(user => (user.id === id ? updatedUser : user)))
-
 		setEditing(false)
+
+		setUsers(users.map(user => (user.id === id ? updatedUser : user)))
 	}
 
 	const editRow = user => {
