@@ -24,16 +24,16 @@ const App = () => {
 		setUsers([ ...users, user ])
 	}
 
-	const updateUser = (id, updatedUser) => {
-		setUsers(users.map(user => (user.id === id ? updatedUser : user)))
-
-		setEditing(false)
-	}
-
 	const deleteUser = id => {
 		setEditing(false)
 
 		setUsers(users.filter(user => user.id !== id))
+	}
+
+	const updateUser = (id, updatedUser) => {
+		setUsers(users.map(user => (user.id === id ? updatedUser : user)))
+
+		setEditing(false)
 	}
 
 	const editRow = user => {
