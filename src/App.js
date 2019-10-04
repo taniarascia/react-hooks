@@ -20,8 +20,15 @@ const App = () => {
 
 	// CRUD operations
 	const addUser = user => {
-		user.id = users.length + 1
-		setUsers([ ...users, user ])
+
+		  if(user.name.trim()!='' && user.username.trim()!='')
+		  {
+			user.id = users.length + 1
+			setUsers([ ...users, user ])
+		  }
+		  else{
+			  alert("Don't add blank spae");
+		  }
 	}
 
 	const deleteUser = id => {
