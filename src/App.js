@@ -28,6 +28,7 @@ const App = () => {
 		  }
 		  else{
 			  alert("Don't add blank space ! master commit");
+			  alert("Don't add blank space ! dev branch");
 		  }
 	}
 
