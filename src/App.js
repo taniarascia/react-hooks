@@ -28,6 +28,8 @@ const App = () => {
 		  }
 		  else{
 			  alert("Don't add blank space !");
+
+			  alert("Don't add blank space ! dev branch");
 		  }
 	}
 
