@@ -27,7 +27,7 @@ const App = () => {
 			setUsers([ ...users, user ])
 		  }
 		  else{
-			  alert("Don't add blank space !");
+			  alert("Don't add blank space ! master commit");
 		  }
 	}
 
