@@ -51,10 +51,18 @@ const App = () => {
 		setUsers(users.filter(user => user.id !== id))
 	}
 
-	const updateUser = (id, updatedUser) => {
-		setEditing(false)
+	const updateUserAPI = (id, updatedUser) => {
+		console.log('call api');
+		let payload = getInfoPayload(updatedUser.name, updatedUser.username);
 
-		setUsers(users.map(user => (user.id === id ? updatedUser : user)))
+		Api.patch(`${id}`, payload)
+		.then(res => {
+			console.log(res);
+			setUsers(users.map(user => (user.id === id ? updatedUser : user)))
+			setEditing(false);
+		}).catch(err => {
+			console.log(err);
+		});
 	}
 
 	const editRow = user => {
@@ -75,7 +83,7 @@ const App = () => {
 								editing={editing}
 								setEditing={setEditing}
 								currentUser={currentUser}
-								updateUser={updateUser}
+								updateUser={updateUserAPI}
 							/>
 						</Fragment>
 					) : (
