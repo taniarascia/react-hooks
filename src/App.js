@@ -2,6 +2,8 @@ import React, { useState, Fragment } from 'react'
 import AddUserForm from './forms/AddUserForm'
 import EditUserForm from './forms/EditUserForm'
 import UserTable from './tables/UserTable'
+import Api from './Api';
+import * as Constants from './Constants';
 
 const App = () => {
 	// Data
@@ -18,10 +20,29 @@ const App = () => {
 	const [ currentUser, setCurrentUser ] = useState(initialFormState)
 	const [ editing, setEditing ] = useState(false)
 
+	function getInfoPayload(name, username){
+		return { 
+			"fields": 
+			{ 
+				"name": { "stringValue": name }, 
+				"username": { "stringValue": username }
+			} 
+		}
+	}
+
 	// CRUD operations
-	const addUser = user => {
-		user.id = users.length + 1
-		setUsers([ ...users, user ])
+	const addUserAPI = user => {
+		console.log('call api');
+		let payload = getInfoPayload(user.name, user.username);
+
+		Api.post(`projects/${Constants.PROJECT_NAME}/databases/(default)/documents/${Constants.USERS_COLLETICTION_NAME}`, payload)
+		.then(res => {
+			console.log(res);
+			user.id = res.data.name;
+			setUsers([ ...users, user ]);
+		}).catch(err => {
+			console.log(err);
+		});
 	}
 
 	const deleteUser = id => {
@@ -60,7 +81,7 @@ const App = () => {
 					) : (
 						<Fragment>
 							<h2>Add user</h2>
-							<AddUserForm addUser={addUser} />
+							<AddUserForm addUser={addUserAPI} />
 						</Fragment>
 					)}
 				</div>
