@@ -44,11 +44,17 @@ const App = () => {
 			console.log(err);
 		});
 	}
-
-	const deleteUser = id => {
-		setEditing(false)
-
-		setUsers(users.filter(user => user.id !== id))
+	
+	const deleteUserAPI = id => {
+		console.log('call api');
+		Api.delete(`${id}`)
+		.then(res => {
+			console.log(res);
+			setEditing(false);
+			setUsers(users.filter(user => user.id !== id));
+		}).catch(err => {
+			console.log(err);
+		});
 	}
 
 	const updateUserAPI = (id, updatedUser) => {
@@ -95,7 +101,7 @@ const App = () => {
 				</div>
 				<div className="flex-large">
 					<h2>View users</h2>
-					<UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
+					<UserTable users={users} editRow={editRow} deleteUser={deleteUserAPI} />
 				</div>
 			</div>
 		</div>
