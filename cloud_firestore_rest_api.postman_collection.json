@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "ec7dbe13-6fa0-4a9f-890f-f8975e05ef7f",
+		"name": "cloud_firestore_rest_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all documents in a collection",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://firestore.googleapis.com/v1/projects/react-crud-simple-api/databases/(default)/documents/users",
+					"protocol": "https",
+					"host": [
+						"firestore",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"projects",
+						"react-crud-simple-api",
+						"databases",
+						"(default)",
+						"documents",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get document by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://firestore.googleapis.com/v1/projects/react-crud-simple-api/databases/(default)/documents/users/0",
+					"protocol": "https",
+					"host": [
+						"firestore",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"projects",
+						"react-crud-simple-api",
+						"databases",
+						"(default)",
+						"documents",
+						"users",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Document",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " { \r\n    \"fields\": \r\n    { \r\n        \"title\": { \"stringValue\": \"this.title\" }, \r\n        \"category\": { \"stringValue\": \"this.category\" }, \r\n        \"post\": { \"stringValue\": \"this.post\" }, \r\n        \"summary\": { \"stringValue\": \"this.description\" }, \r\n        \"published\": { \"booleanValue\": true }, \r\n        \"created\": { \"stringValue\": \"1970-01-01 00:00:01\" }, \r\n        \"modified\": { \"stringValue\": \"1970-01-01 00:00:01\" } \r\n    } \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://firestore.googleapis.com/v1/projects/react-crud-simple-api/databases/(default)/documents/users",
+					"protocol": "https",
+					"host": [
+						"firestore",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"projects",
+						"react-crud-simple-api",
+						"databases",
+						"(default)",
+						"documents",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch only specific fields",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " { \r\n    \"fields\": \r\n    { \r\n        \"name\": { \"stringValue\": \"Aupdate\" }, \r\n        \"username\": { \"stringValue\": \"AusernameUpdate\" }\r\n    } \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://firestore.googleapis.com/v1/projects/react-crud-simple-api/databases/(default)/documents/users/0/?updateMask.fieldPaths=name&updateMask.fieldPaths=username",
+					"protocol": "https",
+					"host": [
+						"firestore",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"projects",
+						"react-crud-simple-api",
+						"databases",
+						"(default)",
+						"documents",
+						"users",
+						"0",
+						""
+					],
+					"query": [
+						{
+							"key": "updateMask.fieldPaths",
+							"value": "name"
+						},
+						{
+							"key": "updateMask.fieldPaths",
+							"value": "username"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://firestore.googleapis.com/v1/projects/react-crud-simple-api/databases/(default)/documents/users/LDmhsIHXmJ3C6UGdWakI/",
+					"protocol": "https",
+					"host": [
+						"firestore",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"projects",
+						"react-crud-simple-api",
+						"databases",
+						"(default)",
+						"documents",
+						"users",
+						"LDmhsIHXmJ3C6UGdWakI",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
