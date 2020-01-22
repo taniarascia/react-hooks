@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import AddUserForm from './forms/AddUserForm'
 import EditUserForm from './forms/EditUserForm'
 import UserTable from './tables/UserTable'
@@ -6,14 +6,36 @@ import Api from './Api';
 import * as Constants from './Constants';
 
 const App = () => {
-	// Data
-	const usersData = [
-		{ id: 1, name: 'Tania', username: 'floppydiskette' },
-		{ id: 2, name: 'Craig', username: 'siliconeidolon' },
-		{ id: 3, name: 'Ben', username: 'benisphere' },
-	]
 
-	const initialFormState = { id: null, name: '', username: '' }
+	// Data
+	let usersData = [];
+	useEffect(() => {
+		Api.get(`projects/${Constants.PROJECT_NAME}/databases/(default)/documents/${Constants.USERS_COLLETICTION_NAME}`)
+		.then(res => {
+			console.log(res);
+			if(res.data.documents == null)
+				usersData = [];
+			else
+				usersData = res.data.documents;
+
+			setUsers(usersData);
+		}).catch(err => {
+			console.log(err);
+		});
+	}, []);
+
+	const initialFormState = 
+	{
+		name: '',
+		fields: {
+			name: {
+				stringValue: ''
+			},
+			username: {
+				stringValue: ''
+			}
+		}
+	};
 
 	// Setting state
 	const [ users, setUsers ] = useState(usersData)
@@ -21,12 +43,15 @@ const App = () => {
 	const [ editing, setEditing ] = useState(false)
 
 	function getInfoPayload(name, username){
-		return { 
-			"fields": 
-			{ 
-				"name": { "stringValue": name }, 
-				"username": { "stringValue": username }
-			} 
+		return {
+				fields: {
+					name: {
+						stringValue: name
+					},
+					username: {
+						stringValue: username
+					}
+			}
 		}
 	}
 
@@ -38,33 +63,34 @@ const App = () => {
 		Api.post(`projects/${Constants.PROJECT_NAME}/databases/(default)/documents/${Constants.USERS_COLLETICTION_NAME}`, payload)
 		.then(res => {
 			console.log(res);
-			user.id = res.data.name;
-			setUsers([ ...users, user ]);
+			setUsers([...users, res.data]);
 		}).catch(err => {
 			console.log(err);
 		});
 	}
-	
+
 	const deleteUserAPI = id => {
 		console.log('call api');
+		console.log(id);
+
 		Api.delete(`${id}`)
 		.then(res => {
 			console.log(res);
 			setEditing(false);
-			setUsers(users.filter(user => user.id !== id));
+			setUsers(users.filter(user => user.name !== id));
 		}).catch(err => {
 			console.log(err);
 		});
 	}
 
 	const updateUserAPI = (id, updatedUser) => {
-		console.log('call api');
+		console.log('call api = id: ' + id);
 		let payload = getInfoPayload(updatedUser.name, updatedUser.username);
 
 		Api.patch(`${id}`, payload)
 		.then(res => {
 			console.log(res);
-			setUsers(users.map(user => (user.id === id ? updatedUser : user)))
+			setUsers(users.map(user => (user.name === id ? updatedUser : user)))
 			setEditing(false);
 		}).catch(err => {
 			console.log(err);
@@ -74,7 +100,17 @@ const App = () => {
 	const editRow = user => {
 		setEditing(true)
 
-		setCurrentUser({ id: user.id, name: user.name, username: user.username })
+		setCurrentUser({
+			name: '',
+			fields: {
+				name: {
+					stringValue: user.fields.name.stringValue
+				},
+				username: {
+					stringValue: user.fields.username.stringValue
+				}
+			}
+		});
 	}
 
 	return (
