@@ -1,21 +1,20 @@
 import React, { useState } from 'react'
 
 const EditUserForm = props => {
-  const [ user, setUser ] = useState(props.currentUser)
+  const [ user, setUser ] = useState(props.currentUser);
 
   const handleInputChange = event => {
-    const { name, value } = event.target
+    const { name, value } = event.target;
     setUser({ ...user, fields: {...user.fields, [name]: {stringValue: value}}});
-    console.log(user);
+  }
+
+  const updateUserClicked = event => {
+    event.preventDefault();
+    props.updateUser(user.name, user);
   }
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault()
-        props.updateUser(user.name, user)
-      }}
-    >
+    <form onSubmit={updateUserClicked}>
       <label>Name</label>
       <input type="text" name="name" value={user.fields.name.stringValue} onChange={handleInputChange} />
       <label>Username</label>
@@ -28,4 +27,4 @@ const EditUserForm = props => {
   )
 }
 
-export default EditUserForm
+export default EditUserForm;
