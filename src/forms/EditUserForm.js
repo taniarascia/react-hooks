@@ -1,26 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 const EditUserForm = props => {
   const [ user, setUser ] = useState(props.currentUser)
 
-  useEffect(
-    () => {
-      setUser(props.currentUser)
-    },
-    [ props ]
-  )
-  // You can tell React to skip applying an effect if certain values haven’t changed between re-renders. [ props ]
-
   const handleInputChange = event => {
-    const { name, value } = event.target;
-    setUser({ ...user, [name]: value });
+    const { name, value } = event.target
+    setUser({ ...user, fields: {...user.fields, [name]: {stringValue: value}}});
+    console.log(user);
   }
 
   return (
     <form
       onSubmit={event => {
         event.preventDefault()
-
         props.updateUser(user.name, user)
       }}
     >

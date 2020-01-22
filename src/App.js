@@ -85,9 +85,11 @@ const App = () => {
 
 	const updateUserAPI = (id, updatedUser) => {
 		console.log('call api = id: ' + id);
+		
 		let payload = getInfoPayload(updatedUser.name, updatedUser.username);
+		console.log(payload);
 
-		Api.patch(`${id}`, payload)
+		Api.post(`${id}`, payload)
 		.then(res => {
 			console.log(res);
 			setUsers(users.map(user => (user.name === id ? updatedUser : user)))
@@ -101,7 +103,7 @@ const App = () => {
 		setEditing(true)
 
 		setCurrentUser({
-			name: '',
+			name: user.name,
 			fields: {
 				name: {
 					stringValue: user.fields.name.stringValue
