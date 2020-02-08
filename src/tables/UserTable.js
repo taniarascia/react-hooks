@@ -25,6 +25,7 @@ const UserTable = props => (
                 Edit
               </button>
               <button
+                disabled={props.editing}
                 onClick={() => props.deleteUser(user.id)}
                 className="button muted-button"
               >
