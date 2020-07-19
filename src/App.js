@@ -20,8 +20,9 @@ const App = () => {
 
 	// CRUD operations
 	const addUser = user => {
-		user.id = users.length + 1
-		setUsers([ ...users, user ])
+    let nextId = users.slice(-1).map(data => data.id);
+		user.id = parseInt(nextId) + 1;
+    setUsers([ ...users, user ])
 	}
 
 	const deleteUser = id => {
