@@ -21,7 +21,7 @@ const App = () => {
 	// CRUD operations
 	const addUser = user => {
     let nextId = users.slice(-1).map(data => data.id)
-	  user.id = parseInt(nextId) + 1
+	  user.id = parseInt(nextId) + 1 || 1
     setUsers([ ...users, user ])
 	}
 
