@@ -3,12 +3,30 @@ import AddUserForm from './forms/AddUserForm'
 import EditUserForm from './forms/EditUserForm'
 import UserTable from './tables/UserTable'
 
+// generate uuid
+const uuid = () => {
+	let uuid = '';
+	const hexBytes = [];
+	const b = window.crypto.getRandomValues(new Uint8Array(16));
+	for (let i = 0; i < 256; i++) {
+		hexBytes[i] = (i + 0x100).toString(16).substr(1);
+	}
+	for (let j = 0; j < 16; j++) {
+		if (j === 4 || j === 6 || j === 8 || j === 10) {
+			uuid += '-';
+			uuid += hexBytes[b[j]]
+		}
+		uuid += hexBytes[b[j]]
+	}
+	return uuid;
+}
+
 const App = () => {
 	// Data
 	const usersData = [
-		{ id: 1, name: 'Tania', username: 'floppydiskette' },
-		{ id: 2, name: 'Craig', username: 'siliconeidolon' },
-		{ id: 3, name: 'Ben', username: 'benisphere' },
+		{ id: uuid(), name: 'Tania', username: 'floppydiskette' },
+		{ id: uuid(), name: 'Craig', username: 'siliconeidolon' },
+		{ id: uuid(), name: 'Ben', username: 'benisphere' },
 	]
 
 	const initialFormState = { id: null, name: '', username: '' }
@@ -20,7 +38,7 @@ const App = () => {
 
 	// CRUD operations
 	const addUser = user => {
-		user.id = users.length + 1
+		user.id = uuid()
 		setUsers([ ...users, user ])
 	}
 
