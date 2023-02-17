@@ -20,7 +20,7 @@ const App = () => {
 
 	// CRUD operations
 	const addUser = user => {
-		user.id = users.length + 1
+		user.id = Date.now()
 		setUsers([ ...users, user ])
 	}
 
